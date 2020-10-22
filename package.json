@@ -1,0 +1,20 @@
+{
+  "name": "node.js",
+  "version": "1.0.0",
+  "description": "Node.JS project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anmarkosyan/nodeJSProject.git"
+  },
+  "keywords": [],
+  "author": "Anush Markosyan <anush.markos@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anmarkosyan/nodeJSProject/issues"
+  },
+  "homepage": "https://github.com/anmarkosyan/nodeJSProject#readme"
+}

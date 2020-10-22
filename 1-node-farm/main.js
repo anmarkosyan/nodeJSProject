@@ -1,6 +1,7 @@
 
 const fs = require('fs');
 const http = require('http');
+const url = require('url');
 
 
 //============= FILE SYSTEM =============================
@@ -31,8 +32,22 @@ const http = require('http');
 
 //============== SERVER ==================
 //creating a server
+
 const server = http.createServer((req, res) => {
-    res.end('hello from the server!');
+    const pathName = req.url;
+
+    if(pathName === '/' || pathName === '/overview'){
+        res.end('This is the OVERVIEW!');
+    }else if(pathName === '/product'){
+        res.end('This is the PRODUCT!')
+    }else {
+
+        res.writeHead(404,{
+            'Content-type': 'text/html',
+            'my-own-header': 'hello-world'
+        });
+        res.end('<h1>Page not found!</h1>');
+    }
 });
 
 //listen to incoming requests from the client

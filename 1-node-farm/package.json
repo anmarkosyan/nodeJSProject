@@ -1,0 +1,11 @@
+{
+  "name": "node-farm",
+  "version": "1.0.0",
+  "description": "Learning Node.js",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Anush Markosyan <anush.markos@gmail.com>",
+  "license": "ISC"
+}

@@ -1,7 +1,11 @@
 
+//1. require core modules
 const fs = require('fs');
 const http = require('http');
 const url = require('url');
+//2. require third-party modules from npm installed
+const slugify = require('slugify')
+//3. require our own created modules
 const replaceTemplate = require('./modules/replaceTemplate');
 
 //============= FILE SYSTEM =============================
@@ -41,6 +45,9 @@ const tempProduct = fs.readFileSync(`${__dirname}/templates/template-product.htm
 const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, 'utf-8')
 const dataObj = JSON.parse(data);
 
+//create slugs
+const slugs = dataObj.map(el => slugify(el.productName,{lower: true}));
+console.log(slugs);
 //creating a server
 const server = http.createServer((req, res) => {
     // console.log(req.url);
@@ -54,7 +61,6 @@ const server = http.createServer((req, res) => {
         //replace the placeholders in the template with the actual data from the current product
         const cardsHtml = dataObj.map(el => replaceTemplate(tempCard, el)).join('');
         const output = tempOverview.replace('{%PRODUCT_CARDS%}', cardsHtml);
-
         res.end(output);
 
      //product page

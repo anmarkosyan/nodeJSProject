@@ -12,6 +12,7 @@
     "slugify": "^1.4.5"
   },
   "devDependencies": {
-    "nodemon": "^2.0.6"
+    "nodemon": "^2.0.6",
+    "prettier": "2.1.2"
   }
 }

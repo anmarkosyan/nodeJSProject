@@ -10,8 +10,13 @@ myEmitter.on("newSale", () => {
   console.log("There was a new sale!!");
 });
 myEmitter.on("newSale", () => {
-  console.log("Customer name Aram");
+  console.log("Customer name Aram.");
+});
+
+//new listener with using 9 argument
+myEmitter.on("newSale", (stock) => {
+  console.log(`There are now ${stock} items left in stock.`);
 });
 
 //object that emits named events
-myEmitter.emit("newSale");
+myEmitter.emit("newSale", 9);

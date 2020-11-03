@@ -10,18 +10,18 @@ server.on("request", (req, res) => {
   // });
 
   //solution #2:using streams
-  const readable = fs.createReadStream("test-fileeee.txt");
+  const readable = fs.createReadStream("test-file.txt");
   readable.on("data", (chunk) => {
     res.write(chunk);
   });
   readable.on("end", () => {
     res.end();
   });
-  readable.on('error', err => {
-      console.log(err);
-      res.statusCode = 500;
-      res.end('File not found!');
-  })
+  readable.on("error", (err) => {
+    console.log(err);
+    res.statusCode = 500;
+    res.end("File not found!");
+  });
 });
 
 server.listen(8000, "127.0.0.1", () => {

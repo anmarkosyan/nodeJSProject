@@ -10,18 +10,25 @@ server.on("request", (req, res) => {
   // });
 
   //solution #2:using streams
+  // const readable = fs.createReadStream("test-file.txt");
+  // readable.on("data", (chunk) => {
+  //   res.write(chunk);
+  // });
+  // readable.on("end", () => {
+  //   res.end();
+  // });
+  // readable.on("error", (err) => {
+  //   console.log(err);
+  //   res.statusCode = 500;
+  //   res.end("File not found!");
+  // });
+
+  //solution #3:using pipe() operator: And that will  fix the problem of backpressure,
+  //because it will automatically handle the speed basically
+  //of the data coming in, and the speed of the data going out.
+  //The best solution
   const readable = fs.createReadStream("test-file.txt");
-  readable.on("data", (chunk) => {
-    res.write(chunk);
-  });
-  readable.on("end", () => {
-    res.end();
-  });
-  readable.on("error", (err) => {
-    console.log(err);
-    res.statusCode = 500;
-    res.end("File not found!");
-  });
+  readable.pipe(res);
 });
 
 server.listen(8000, "127.0.0.1", () => {

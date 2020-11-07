@@ -1,1 +1,0 @@
-Breed not found (master breed does not exist)

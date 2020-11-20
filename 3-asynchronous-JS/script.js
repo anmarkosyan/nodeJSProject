@@ -36,6 +36,7 @@ const superagent = require('superagent');
 
 //2 way without callbacks within promises
 //build promise function
+
 const readFilePro = file => {
   return new Promise((resolve, reject) => {
     fs.readFile(file, (err, data) => {
@@ -54,8 +55,9 @@ const writeFilePro = (file, data) => {
     });
   });
 };
+/*
 
-//consume
+//consume with then... catch
 readFilePro(`${__dirname}/dog.txt`)
   .then(data => {
     console.log(`Breed: ${data}`);
@@ -71,3 +73,22 @@ readFilePro(`${__dirname}/dog.txt`)
   .catch(err => {
     console.error(err.message);
   });
+
+ */
+
+//consume with Async/Await
+const getDogPic = async () => {
+  try {
+    const data = await readFilePro(`${__dirname}/dog.txt`);
+    console.log(`Breed: ${data}`);
+    const res = await superagent.get(
+      `https://dog.ceo/api/breed/${data}/images/random`
+    );
+    console.log(res.body.message);
+    await writeFilePro('dogImg.txt', res.body.message);
+    console.log('Random dog file');
+  } catch (err) {
+    console.error(err.message);
+  }
+};
+getDogPic();

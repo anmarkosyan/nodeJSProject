@@ -88,7 +88,36 @@ const getDogPic = async () => {
     await writeFilePro('dogImg.txt', res.body.message);
     console.log('Random dog file');
   } catch (err) {
-    console.error(err.message);
+    console.error(err);
+
+    throw err;
   }
+
+  return '2: Ready 🐶';
 };
-getDogPic();
+
+//1 way with then... catch
+/*
+console.log('1: execution');
+getDogPic()
+  .then(x => {
+    console.log(x);
+    console.log('3: execution');
+  })
+  .catch(err => {
+    console.error('ERROR 💥');
+  });
+
+ */
+
+//2 way of using Async/Await with IIFE:immediately invoked function expression.
+(async () => {
+  try {
+    console.log('1: execution');
+    const x = await getDogPic();
+    console.log(x)
+    console.log('3: execution');
+  } catch (err) {
+    console.error('ERROR 💥');
+  }
+})();

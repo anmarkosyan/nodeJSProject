@@ -81,18 +81,34 @@ const getDogPic = async () => {
   try {
     const data = await readFilePro(`${__dirname}/dog.txt`);
     console.log(`Breed: ${data}`);
-    const res = await superagent.get(
+    //!: consuming one API
+    // const res = await superagent.get(
+    //   `https://dog.ceo/api/breed/${data}/images/random`
+    // );
+    // console.log(res.body.message);
+    // await writeFilePro('dogImg.txt', res.body.message);
+    //2: what if we want to run multiple promises at the same time
+    const res1Pro = superagent.get(
       `https://dog.ceo/api/breed/${data}/images/random`
     );
-    console.log(res.body.message);
-    await writeFilePro('dogImg.txt', res.body.message);
+    const res2Pro = superagent.get(
+      `https://dog.ceo/api/breed/${data}/images/random`
+    );
+    const res3Pro = superagent.get(
+      `https://dog.ceo/api/breed/${data}/images/random`
+    );
+
+    const all = await Promise.all([res1Pro, res2Pro, res3Pro]);
+    const img = all.map(el => el.body.message)
+    console.log(img);
+
+    await writeFilePro('dogImg.txt', img.join('\n'));
     console.log('Random dog file');
   } catch (err) {
     console.error(err);
 
     throw err;
   }
-
   return '2: Ready 🐶';
 };
 
@@ -115,7 +131,7 @@ getDogPic()
   try {
     console.log('1: execution');
     const x = await getDogPic();
-    console.log(x)
+    console.log(x);
     console.log('3: execution');
   } catch (err) {
     console.error('ERROR 💥');

@@ -5,7 +5,7 @@ const app = express();
 //define route, http method for the request
 app.get('/', (req, res) => {
   res
-    .status(404)
+    .status(200)
     .json({ message: 'Hello from the server side 😀', app: 'Natours' });
 });
 

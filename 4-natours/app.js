@@ -41,11 +41,23 @@ app.get('/api/v1/tours', (req, res) => {
   });
 });
 
-//how to get a one tour with searching id
+//how to defining parameters right in the URL,how to then read these parameters,
+//and also, how to respond to them
+//How to get only one tour
 app.get('/api/v1/tours/:id', (req, res) => {
   console.log(req.params);
   const id = req.params.id * 1;
+
   const tour = tours.find((el) => el.id === id);
+
+  //how to define an error
+  //if (id > tours.length) {
+  if (!tour) {
+    return res.status(404).json({
+      status: 'fail',
+      message: 'Invalid ID',
+    });
+  }
 
   res.status(200).json({
     status: 'success',

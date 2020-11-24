@@ -28,7 +28,7 @@ const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 );
 
-//implement the tours route and handling  GET method, and create a route handler function
+//=============== implement the tours route and handling  GET method, and create a route handler function
 //what do we want to do when someone hits this route?
 app.get('/api/v1/tours', (req, res) => {
   res.status(200).json({
@@ -41,7 +41,7 @@ app.get('/api/v1/tours', (req, res) => {
   });
 });
 
-//how to defining parameters right in the URL,how to then read these parameters,
+// how to defining parameters right in the URL,how to then read these parameters,
 //and also, how to respond to them
 //How to get only one tour
 app.get('/api/v1/tours/:id', (req, res) => {
@@ -67,7 +67,7 @@ app.get('/api/v1/tours/:id', (req, res) => {
   });
 });
 
-//implement a route handler for POST requests so that we can actually add a new tour to our data set.
+//============ implement a route handler for POST requests so that we can actually add a new tour to our data set.
 app.post('/api/v1/tours', (req, res) => {
   //console.log(req.body);
   const newId = tours[tours.length - 1].id + 1;
@@ -91,7 +91,7 @@ app.post('/api/v1/tours', (req, res) => {
   //res.send('Done!');
 });
 
-//how to handle PATCH request // update data
+//================ how to handle PATCH request // update data
 app.patch('/api/v1/tours/:id', (req, res) => {
   if (req.params.id * 1 > tours.length) {
     return res.status(404).json({
@@ -102,10 +102,25 @@ app.patch('/api/v1/tours/:id', (req, res) => {
   res.status(200).json({
     status: 'success',
     data: {
-      tour: '<Updated tour here ...>'
-    }
-  })
-})
+      tour: '<Updated tour here ...>',
+    },
+  });
+});
+
+//================= how to handle DELETE request
+app.delete('/api/v1/tours/:id', (req, res) => {
+  if (req.params.id * 1 > tours.length) {
+    return res.status(404).json({
+      status: 'fail',
+      message: 'Invalid ID',
+    });
+  }
+  //204 status means: no content
+  res.status(204).json({
+    status: 'success',
+    data: null,
+  });
+});
 
 //listen the server
 const port = 3000;

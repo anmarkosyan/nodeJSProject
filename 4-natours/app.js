@@ -10,27 +10,13 @@ const app = express();
 //so in the middle of the request and the response.
 app.use(express.json());
 
-//define route, http method for the request
-/*
-app.get('/', (req, res) => {
-  res
-    .status(200)
-    .json({ message: 'Hello from the server side 😀', app: 'Natours' });
-});
-
-app.post('/', (req, res) => {
-  res.send('You can post in this endpoint...');
-});
-
- */
-
 const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 );
 
-//=============== implement the tours route and handling  GET method, and create a route handler function
-//what do we want to do when someone hits this route?
-app.get('/api/v1/tours', (req, res) => {
+//========================== for clear code we reorganized route ========
+
+const getAllTours = (req, res) => {
   res.status(200).json({
     //and formatted our response using JSend specification
     status: 'success',
@@ -39,12 +25,9 @@ app.get('/api/v1/tours', (req, res) => {
       tours,
     },
   });
-});
+};
 
-// how to defining parameters right in the URL,how to then read these parameters,
-//and also, how to respond to them
-//How to get only one tour
-app.get('/api/v1/tours/:id', (req, res) => {
+const getTour = (req, res) => {
   console.log(req.params);
   const id = req.params.id * 1;
 
@@ -65,10 +48,9 @@ app.get('/api/v1/tours/:id', (req, res) => {
       tour,
     },
   });
-});
+};
 
-//============ implement a route handler for POST requests so that we can actually add a new tour to our data set.
-app.post('/api/v1/tours', (req, res) => {
+const createTour = (req, res) => {
   //console.log(req.body);
   const newId = tours[tours.length - 1].id + 1;
   const newTour = Object.assign({ id: newId }, req.body);
@@ -88,11 +70,9 @@ app.post('/api/v1/tours', (req, res) => {
       });
     }
   );
-  //res.send('Done!');
-});
+};
 
-//================ how to handle PATCH request // update data
-app.patch('/api/v1/tours/:id', (req, res) => {
+const updateTour = (req, res) => {
   if (req.params.id * 1 > tours.length) {
     return res.status(404).json({
       status: 'fail',
@@ -105,10 +85,9 @@ app.patch('/api/v1/tours/:id', (req, res) => {
       tour: '<Updated tour here ...>',
     },
   });
-});
+};
 
-//================= how to handle DELETE request
-app.delete('/api/v1/tours/:id', (req, res) => {
+const deleteTour = (req, res) => {
   if (req.params.id * 1 > tours.length) {
     return res.status(404).json({
       status: 'fail',
@@ -120,7 +99,23 @@ app.delete('/api/v1/tours/:id', (req, res) => {
     status: 'success',
     data: null,
   });
-});
+};
+
+//=============== implement the tours route and handling  GET method, and create a route handler function
+
+//app.get('/api/v1/tours', getAllTours);
+//app.get('/api/v1/tours/:id', getTour);
+//app.post('/api/v1/tours', createTour);
+//app.patch('/api/v1/tours/:id', updateTour);
+//app.delete('/api/v1/tours/:id', deleteTour);
+
+//do better
+app.route('/api/v1/tours').get(getAllTours).post(createTour);
+app
+  .route('/api/v1/tours/:id')
+  .get(getTour)
+  .patch(updateTour)
+  .delete(deleteTour);
 
 //listen the server
 const port = 3000;

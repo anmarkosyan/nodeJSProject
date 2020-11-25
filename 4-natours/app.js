@@ -10,6 +10,20 @@ const app = express();
 //so in the middle of the request and the response.
 app.use(express.json());
 
+//========= how to create our own middleware function that we want to add in middleware stack
+//and this middleware here applies to each and every single request,
+//❗️and it should come before route handler
+app.use((req, res, next) => {
+  console.log('Hello from the middleware 👋');
+  next();
+});
+
+//how to manipulate request object
+app.use((req, res, next) => {
+  req.requestTime = new Date().toISOString();
+  next();
+});
+
 const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 );
@@ -21,6 +35,7 @@ const getAllTours = (req, res) => {
     //and formatted our response using JSend specification
     status: 'success',
     result: tours.length,
+    requestedAt: req.requestTime,
     data: {
       tours,
     },

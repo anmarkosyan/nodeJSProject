@@ -1,13 +1,17 @@
 //how to use express web framework
 const fs = require('fs');
 const express = require('express');
+const morgan = require('morgan');
 
 const app = express();
+
+//1: MIDDLEWARE
 
 //for creating middleware
 //And middleware is basically a function that can modify the incoming request data.
 //It's called middleware because it stands between,
 //so in the middle of the request and the response.
+app.use(morgan('dev'));//can use also tiny
 app.use(express.json());
 
 //========= how to create our own middleware function that we want to add in middleware stack
@@ -28,8 +32,7 @@ const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 );
 
-//========================== for clear code we reorganized route ========
-
+//2: ROUTE HANDLERS
 const getAllTours = (req, res) => {
   res.status(200).json({
     //and formatted our response using JSend specification
@@ -116,8 +119,7 @@ const deleteTour = (req, res) => {
   });
 };
 
-//=============== implement the tours route and handling  GET method, and create a route handler function
-
+//3: ROUTES
 //app.get('/api/v1/tours', getAllTours);
 //app.get('/api/v1/tours/:id', getTour);
 //app.post('/api/v1/tours', createTour);
@@ -132,7 +134,7 @@ app
   .patch(updateTour)
   .delete(deleteTour);
 
-//listen the server
+//4: START SERVER
 const port = 3000;
 app.listen(port, () => {
   console.log(`App running on port ${port}...`);

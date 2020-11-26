@@ -1,7 +1,7 @@
 //how to use express web framework
 const fs = require('fs');
 const express = require('express');
-const morgan = require('morgan');
+const morgan = require('morgan');// morgan => 3rd party middleware:HTTP request logger middleware for node.js
 
 const app = express();
 
@@ -11,7 +11,8 @@ const app = express();
 //And middleware is basically a function that can modify the incoming request data.
 //It's called middleware because it stands between,
 //so in the middle of the request and the response.
-app.use(morgan('dev'));//can use also tiny
+app.use(morgan('dev'));//3rd party middleware, which allows us to see request data right in the console
+
 app.use(express.json());
 
 //========= how to create our own middleware function that we want to add in middleware stack

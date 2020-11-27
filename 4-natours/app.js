@@ -1,7 +1,7 @@
 //how to use express web framework
 const fs = require('fs');
 const express = require('express');
-const morgan = require('morgan');// morgan => 3rd party middleware:HTTP request logger middleware for node.js
+const morgan = require('morgan'); // morgan => 3rd party middleware:HTTP request logger middleware for node.js
 
 const app = express();
 
@@ -11,7 +11,7 @@ const app = express();
 //And middleware is basically a function that can modify the incoming request data.
 //It's called middleware because it stands between,
 //so in the middle of the request and the response.
-app.use(morgan('dev'));//3rd party middleware, which allows us to see request data right in the console
+app.use(morgan('dev')); //3rd party middleware, which allows us to see request data right in the console
 
 app.use(express.json());
 
@@ -47,7 +47,6 @@ const getAllTours = (req, res) => {
 };
 
 const getTour = (req, res) => {
-  console.log(req.params);
   const id = req.params.id * 1;
 
   const tour = tours.find((el) => el.id === id);
@@ -120,6 +119,43 @@ const deleteTour = (req, res) => {
   });
 };
 
+//👤 users route handler
+const getAllUsers = (req, res) => {
+  //500 status: internal server error
+  res.status(500).json({
+    status: 'error',
+    message: 'This route not yet defined!',
+  });
+};
+const getUser = (req, res) => {
+  //500 status: internal server error
+  res.status(500).json({
+    status: 'error',
+    message: 'This route not yet defined!',
+  });
+};
+const createUser = (req, res) => {
+  //500 status: internal server error
+  res.status(500).json({
+    status: 'error',
+    message: 'This route not yet defined!',
+  });
+};
+const updateUser = (req, res) => {
+  //500 status: internal server error
+  res.status(500).json({
+    status: 'error',
+    message: 'This route not yet defined!',
+  });
+};
+const deleteUser = (req, res) => {
+  //500 status: internal server error
+  res.status(500).json({
+    status: 'error',
+    message: 'This route not yet defined!',
+  });
+};
+
 //3: ROUTES
 //app.get('/api/v1/tours', getAllTours);
 //app.get('/api/v1/tours/:id', getTour);
@@ -134,6 +170,14 @@ app
   .get(getTour)
   .patch(updateTour)
   .delete(deleteTour);
+
+//users route
+app.route('/api/v1/users').get(getAllUsers).post(createUser);
+app
+  .route('/api/v1/users/:id')
+  .get(getUser)
+  .patch(updateUser)
+  .delete(deleteUser);
 
 //4: START SERVER
 const port = 3000;

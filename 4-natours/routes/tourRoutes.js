@@ -8,10 +8,11 @@ const router = express.Router();
 //using param middleware: So param middleware is middleware that only runs
 //for certain parameters, so basically, when we have a certain parameter in our URL.
 router.param('id', tourController.checkID);
+
 router
   .route('/')
   .get(tourController.getAllTours)
-  .post(tourController.createTour);
+  .post(tourController.checkBody, tourController.createTour);
 router
   .route('/:id')
   .get(tourController.getTour)

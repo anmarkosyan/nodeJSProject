@@ -14,8 +14,10 @@ const app = express();
 //It's called middleware because it stands between,
 //so in the middle of the request and the response.
 app.use(morgan('dev')); //3rd party middleware, which allows us to see request data right in the console
-
 app.use(express.json());
+
+//======= using built-in Express middleware for static files
+app.use(express.static(`${__dirname}/public`))
 
 //========= how to create our own middleware function that we want to add in middleware stack
 //and this middleware here applies to each and every single request,

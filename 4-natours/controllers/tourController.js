@@ -17,6 +17,7 @@ exports.checkID = (req, res, next, val) => {
 //created checkBody middleware for post request
 exports.checkBody = (req, res, next) => {
   if (!req.body.name || !req.body.price) {
+    //400: Bad request
     return res.status(400).json({
       status: 'fail',
       message: 'Missing name or price',

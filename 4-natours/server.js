@@ -6,6 +6,10 @@ and it's there when we listen to our server.
  */
 const app = require('./app');
 
+//console.log(app.get('env'));//to see express environment
+//to see all node.js environment
+console.log(process.env);
+
 //START SERVER
 const port = 3000;
 app.listen(port, () => {

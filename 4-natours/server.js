@@ -5,16 +5,16 @@ So starting now, server.js will actually be our starting file where everything s
 and it's there when we listen to our server.
  */
 const dotenv = require('dotenv');
-const app = require('./app');
 
 dotenv.config({ path: './config.env' });
+const app = require('./app');
 
 //console.log(app.get('env'));//to see express environment
 //to see all node.js environment
-console.log(process.env);
+//console.log(process.env);
 
 //START SERVER
-const port = 3000;
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`App running on port ${port}...`);
 });

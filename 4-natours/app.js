@@ -13,7 +13,14 @@ const app = express();
 //And middleware is basically a function that can modify the incoming request data.
 //It's called middleware because it stands between,
 //so in the middle of the request and the response.
-app.use(morgan('dev')); //3rd party middleware, which allows us to see request data right in the console
+//app.use(morgan('dev')); //3rd party logger middleware, which allows us to see request data right in the console
+
+//how to use NODE_ENV variable
+//console.log(process.env.NODE_ENV)
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
+
 app.use(express.json());
 
 //======= using built-in Express middleware for static files

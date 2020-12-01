@@ -16,7 +16,7 @@ const app = express();
 //app.use(morgan('dev')); //3rd party logger middleware, which allows us to see request data right in the console
 
 //how to use NODE_ENV variable
-//console.log(process.env.NODE_ENV)
+//console.log(process.env.NODE_ENV);
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }

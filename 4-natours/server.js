@@ -49,9 +49,8 @@ const Tour = mongoose.model('Tour', tourSchema);
 
 //3: create new DB document out of Tour model
 const tourTest = new Tour({
-  name: 'The Forest Hiker',
-  price: 496,
-  rating: 4.7,
+  name: 'The Park Camper',
+  price: 997,
 });
 //how to interact with database
 tourTest

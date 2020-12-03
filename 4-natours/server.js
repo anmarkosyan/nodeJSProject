@@ -27,14 +27,15 @@ mongoose
   })
   .then(() => console.log('DB connection'));
 
-//how to connect app to the local database
-// mongoose
-//   .connect(process.env.DATABASE_LOCAL, {
-//     useNewUrlParser: true,
-//     useCreateIndex: true,
-//     useFindAndModify: false,
-//   })
-//   .then(() => console.log('DB local connection'));
+//create schema for describing tour data
+const tourSchema = new mongoose.Schema({
+  name: String,
+  price: Number,
+  rating: Number,
+});
+
+//create model for that schema
+const Tour = mongoose.model('Tour', tourSchema);
 
 //START SERVER
 const port = process.env.PORT || 3000;

@@ -27,7 +27,7 @@ mongoose
   })
   .then(() => console.log('DB connection'));
 
-//create schema for describing tour data
+//1: create schema for describing tour data
 const tourSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -40,12 +40,26 @@ const tourSchema = new mongoose.Schema({
   },
   rating: {
     type: Number,
-    default: 4.7,
+    default: 4.5,
   },
 });
 
-//create model for that schema
+//2: create model for that schema
 const Tour = mongoose.model('Tour', tourSchema);
+
+//3: create new DB document out of Tour model
+const tourTest = new Tour({
+  name: 'The Forest Hiker',
+  price: 496,
+  rating: 4.7,
+});
+//how to interact with database
+tourTest
+  .save()
+  .then((doc) => {
+    console.log(doc);
+  })
+  .catch((err) => console.log('ERROR 💥:', err));
 
 //START SERVER
 const port = process.env.PORT || 3000;

@@ -1,9 +1,5 @@
 const Tour = require('../models/tourModel');
 
-// const tours = JSON.parse(
-//   fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
-// );
-
 // ROUTE HANDLERS
 exports.getAllTours = async (req, res) => {
   try {
@@ -67,13 +63,24 @@ exports.createTour = async (req, res) => {
   }
 };
 
-exports.updateTour = (req, res) => {
-  res.status(200).json({
-    status: 'success',
-    data: {
-      tour: '<Updated tour here ...>',
-    },
-  });
+exports.updateTour = async (req, res) => {
+  try {
+    const updateTour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    res.status(200).json({
+      status: 'success',
+      data: {
+        updateTour,
+      },
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err,
+    });
+  }
 };
 
 exports.deleteTour = (req, res) => {

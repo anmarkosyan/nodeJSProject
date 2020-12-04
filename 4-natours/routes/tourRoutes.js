@@ -7,7 +7,7 @@ const router = express.Router();
 
 //using param middleware: So param middleware is middleware that only runs
 //for certain parameters, so basically, when we have a certain parameter in our URL.
-router.param('id', tourController.checkID);
+//router.param('id', tourController.checkID);
 
 router
   .route('/')

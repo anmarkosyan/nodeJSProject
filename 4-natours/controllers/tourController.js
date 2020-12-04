@@ -4,17 +4,6 @@ const Tour = require('../models/tourModel');
 //   fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
 // );
 
-//created checkBody middleware for post request
-exports.checkBody = (req, res, next) => {
-  if (!req.body.name || !req.body.price) {
-    //400: Bad request
-    return res.status(400).json({
-      status: 'fail',
-      message: 'Missing name or price',
-    });
-  }
-  next();
-};
 // ROUTE HANDLERS
 exports.getAllTours = (req, res) => {
   res.status(200).json({
@@ -41,14 +30,28 @@ exports.getTour = (req, res) => {
   // });
 };
 
-exports.createTour = (req, res) => {
-  //console.log(req.body);
-  res.status(201).json({
-    status: 'success',
-    // data: {
-    //   tour: newTour,
-    // },
-  });
+exports.createTour = async (req, res) => {
+  try {
+    //console.log(req.body);
+    //1 way
+    // const newTour = new Tour({});
+    // newTour.save().then().catch();
+
+    //2way
+    const newTour = await Tour.create(req.body);
+
+    res.status(201).json({
+      status: 'success',
+      data: {
+        tour: newTour,
+      },
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: 'fail',
+      message: 'Invalid data sent!',
+    });
+  }
 };
 
 exports.updateTour = (req, res) => {

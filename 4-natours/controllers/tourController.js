@@ -3,20 +3,21 @@ const Tour = require('../models/tourModel');
 // ROUTE HANDLERS
 exports.getAllTours = async (req, res) => {
   try {
+    console.log(req.query);
     //BUILD QUERY
-    //how to get query string with Express
-    //console.log(req.query);
-
-    // copy req.query for excluding the not using words
-    // eslint-disable-next-line node/no-unsupported-features/es-syntax
+    //1) Filtering
     const queryObj = { ...req.query };
     const excludedFields = ['page', 'sort', 'limit', 'fields'];
     excludedFields.forEach(el => delete queryObj[el]);
-    //console.log(req.query, queryObj);
+    //2) ADVANCED Filtering
 
-    //how to write queries with Mongoose
-    //#1
-    const query = Tour.find(queryObj);
+    //{ difficulty: 'easy', duration: { $gte: 5}, } ===>must to be
+    //{ difficulty: 'easy', duration: { gte: '5' } }===> we get with req.query
+
+    let queryStr = JSON.stringify(queryObj);
+    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, el => `$${el}`);
+
+    const query = Tour.find(JSON.parse(queryStr)); //#1 how to write queries with Mongoose
     //#2
     // const query = Tour.find()
     //   .where('duration')

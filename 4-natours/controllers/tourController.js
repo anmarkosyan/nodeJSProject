@@ -3,6 +3,7 @@ const Tour = require('../models/tourModel');
 // ROUTE HANDLERS
 exports.getAllTours = async (req, res) => {
   try {
+    //BUILD QUERY
     //how to get query string with Express
     //console.log(req.query);
 
@@ -15,14 +16,18 @@ exports.getAllTours = async (req, res) => {
 
     //how to write queries with Mongoose
     //#1
-    const tours = await Tour.find(queryObj);
+    const query = Tour.find(queryObj);
     //#2
-    // const tours = await Tour.find()
+    // const query = Tour.find()
     //   .where('duration')
     //   .equals(5)
     //   .where('difficulty')
     //   .equals('easy');
 
+    //EXECUTE THE QUERY
+    const tours = await query;
+
+    //SEND RESPONSE
     res.status(200).json({
       //formatted our response using JSend specification
       status: 'success',

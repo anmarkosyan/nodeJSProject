@@ -4,11 +4,18 @@ const Tour = require('../models/tourModel');
 exports.getAllTours = async (req, res) => {
   try {
     //how to get query string with Express
-    console.log(req.query);
+    //console.log(req.query);
+
+    // copy req.query for excluding the not using words
+    // eslint-disable-next-line node/no-unsupported-features/es-syntax
+    const queryObj = { ...req.query };
+    const excludedFields = ['page', 'sort', 'limit', 'fields'];
+    excludedFields.forEach(el => delete queryObj[el]);
+    //console.log(req.query, queryObj);
 
     //how to write queries with Mongoose
     //#1
-    const tours = await Tour.find(req.query);
+    const tours = await Tour.find(queryObj);
     //#2
     // const tours = await Tour.find()
     //   .where('duration')

@@ -4,26 +4,36 @@ const Tour = require('../models/tourModel');
 exports.getAllTours = async (req, res) => {
   try {
     console.log(req.query);
+
     //BUILD QUERY
-    //1) Filtering
+    //1a) Filtering
     const queryObj = { ...req.query };
     const excludedFields = ['page', 'sort', 'limit', 'fields'];
     excludedFields.forEach(el => delete queryObj[el]);
-    //2) ADVANCED Filtering
-
-    //{ difficulty: 'easy', duration: { $gte: 5}, } ===>must to be
+    //1b) ADVANCED Filtering
+    //{ difficulty: 'easy', duration: { $gte: 5}, } ===> must to be
     //{ difficulty: 'easy', duration: { gte: '5' } }===> we get with req.query
-
     let queryStr = JSON.stringify(queryObj);
     queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, el => `$${el}`);
 
-    const query = Tour.find(JSON.parse(queryStr)); //#1 how to write queries with Mongoose
+    // how to write queries with Mongoose
+    let query = Tour.find(JSON.parse(queryStr));
     //#2
     // const query = Tour.find()
     //   .where('duration')
     //   .equals(5)
     //   .where('difficulty')
     //   .equals('easy');
+
+    //2) Sorting
+    if (req.query.sort) {
+      const sortBy = req.query.sort.split(',').join(' ');
+      //console.log(sortBy);
+      query = query.sort(sortBy);
+    } else {
+      //by default
+      query = query.sort('-createdAt');
+    }
 
     //EXECUTE THE QUERY
     const tours = await query;

@@ -1,5 +1,14 @@
 const Tour = require('../models/tourModel');
 
+//created middleware function for top-5-cheap route which would be easy query string for users
+//(127.0.0.1:3000/api/v1/tours/top-5-cheap)
+exports.aliasTopTours = (req, res, next) => {
+  req.query.limit = '5';
+  req.query.sort = '-ratingsAverage,price';
+  req.query.fields = 'name, price, ratingsAverage, summery, difficulty';
+  next();
+};
+
 // ROUTE HANDLERS
 exports.getAllTours = async (req, res) => {
   try {

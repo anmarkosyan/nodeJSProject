@@ -18,12 +18,6 @@ exports.getAllTours = async (req, res) => {
 
     // how to write queries with Mongoose
     let query = Tour.find(JSON.parse(queryStr));
-    //#2
-    // const query = Tour.find()
-    //   .where('duration')
-    //   .equals(5)
-    //   .where('difficulty')
-    //   .equals('easy');
 
     //2) Sorting
     if (req.query.sort) {
@@ -42,6 +36,20 @@ exports.getAllTours = async (req, res) => {
     } else {
       //by default excluding
       query = query.select('-__v');
+    }
+
+    //4) Pagination
+    const page = req.query.page * 1 || 1;
+    const limit = req.query.limit * 1 || 100;
+    //page=3&limit=3 => 1-3 is 1 page, 4-6 is 2 page, 7-9 is 3 page, we skip 6 documents for get 3 page
+    const skip = (page - 1) * limit;
+
+    query = query.skip(skip).limit(limit);
+
+    //if client want skip more documents that we actually have
+    if (req.query.page) {
+      const numTours = await Tour.countDocuments();
+      if (skip >= numTours) throw new Error('This page does not exist');
     }
 
     //EXECUTE THE QUERY

@@ -9,60 +9,75 @@ exports.aliasTopTours = (req, res, next) => {
   next();
 };
 
-// ROUTE HANDLERS
-exports.getAllTours = async (req, res) => {
-  try {
-    //console.log(req.query);
+//creating reusable module that we can later import into other controllers and refactoring our ARI features
+class APIFeatures {
+  constructor(query, queryString) {
+    this.query = query;
+    this.queryString = queryString;
+  }
 
-    //BUILD QUERY
+  filter() {
     //1a) Filtering
-    const queryObj = { ...req.query };
+    const queryObj = { ...this.queryString };
     const excludedFields = ['page', 'sort', 'limit', 'fields'];
     excludedFields.forEach(el => delete queryObj[el]);
     //1b) ADVANCED Filtering
-    //{ difficulty: 'easy', duration: { $gte: 5}, } ===> must to be
-    //{ difficulty: 'easy', duration: { gte: '5' } }===> we get with req.query
     let queryStr = JSON.stringify(queryObj);
     queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, el => `$${el}`);
 
-    // how to write queries with Mongoose
-    let query = Tour.find(JSON.parse(queryStr));
+    this.query.find(JSON.parse(queryStr));
 
-    //2) Sorting
-    if (req.query.sort) {
-      const sortBy = req.query.sort.split(',').join(' ');
+    return this;
+  }
+
+  //2) Sorting
+  sort() {
+    if (this.queryString.sort) {
+      const sortBy = this.queryString.sort.split(',').join(' ');
       //console.log(sortBy);
-      query = query.sort(sortBy);
+      this.query = this.query.sort(sortBy);
     } else {
       //by default
-      query = query.sort('-createdAt');
+      this.query = this.query.sort('-createdAt');
     }
+    return this;
+  }
 
-    //3) field limiting
-    if (req.query.fields) {
-      const fields = req.query.fields.split(',').join(' ');
-      query = query.select(fields);
+  //3) field limiting
+  limitFields() {
+    if (this.queryString.fields) {
+      const fields = this.queryString.fields.split(',').join(' ');
+      this.query = this.query.select(fields);
     } else {
       //by default excluding
-      query = query.select('-__v');
+      this.query = this.query.select('-__v');
     }
 
-    //4) Pagination
-    const page = req.query.page * 1 || 1;
-    const limit = req.query.limit * 1 || 100;
+    return this;
+  }
+
+  paginate() {
+    const page = this.queryString.page * 1 || 1;
+    const limit = this.queryString.limit * 1 || 100;
     //page=3&limit=3 => 1-3 is 1 page, 4-6 is 2 page, 7-9 is 3 page, we skip 6 documents for get 3 page
     const skip = (page - 1) * limit;
 
-    query = query.skip(skip).limit(limit);
+    this.query = this.query.skip(skip).limit(limit);
 
-    //if client want skip more documents that we actually have
-    if (req.query.page) {
-      const numTours = await Tour.countDocuments();
-      if (skip >= numTours) throw new Error('This page does not exist');
-    }
+    return this;
+  }
+}
 
+// ROUTE HANDLERS
+exports.getAllTours = async (req, res) => {
+  try {
     //EXECUTE THE QUERY
-    const tours = await query;
+    const features = new APIFeatures(Tour.find(), req.query)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+    const tours = await features.query;
 
     //SEND RESPONSE
     res.status(200).json({

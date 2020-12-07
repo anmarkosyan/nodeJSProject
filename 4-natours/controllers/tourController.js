@@ -3,7 +3,7 @@ const Tour = require('../models/tourModel');
 // ROUTE HANDLERS
 exports.getAllTours = async (req, res) => {
   try {
-    console.log(req.query);
+    //console.log(req.query);
 
     //BUILD QUERY
     //1a) Filtering
@@ -33,6 +33,15 @@ exports.getAllTours = async (req, res) => {
     } else {
       //by default
       query = query.sort('-createdAt');
+    }
+
+    //3) field limiting
+    if (req.query.fields) {
+      const fields = req.query.fields.split(',').join(' ');
+      query = query.select(fields);
+    } else {
+      //by default excluding
+      query = query.select('-__v');
     }
 
     //EXECUTE THE QUERY

@@ -5,12 +5,12 @@ const tourSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, 'A tour must have a name'],
-    unique: [true, 'A tour must have a duration'],
+    unique: true,
     trim: true,
   },
   duration: {
     type: Number,
-    required: true,
+    required: [true, 'A tour must have a duration'],
   },
   maxGroupSize: {
     type: Number,
@@ -52,7 +52,7 @@ const tourSchema = new mongoose.Schema({
     default: Date.now(),
     select: false,
   },
-  startDate: [Date],
+  startDates: [Date],
 });
 
 // create model for that schema

@@ -56,6 +56,10 @@ const tourSchema = new mongoose.Schema(
       select: false,
     },
     startDates: [Date],
+    secretTour: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     toJSON: { virtuals: true },
@@ -68,7 +72,7 @@ tourSchema.virtual('durationWeeks').get(function () {
   return this.duration / 7;
 });
 
-//Document middleware: runs before .save() and .create()
+//Mongoose Document middleware: runs before .save() and .create()
 //this save middleware only runs for the save and create Mongoose methods.
 tourSchema.pre('save', function (next) {
   //console.log(this);
@@ -86,6 +90,20 @@ tourSchema.pre('save', function (next) {
 //   console.log(doc);
 //   next();
 // });
+
+//Query middleware:this is secret tour, that we have in our database and dont show all the clients, only VIP clients
+//and we do not to show the tour with ALL find query operations
+tourSchema.pre(/^find/, function (next) {
+  this.find({ secretTour: { $ne: true } });
+  this.start = Date.now();
+  next();
+});
+
+tourSchema.post(/^find/, function (docs, next) {
+  console.log(`Query took ${Date.now() - this.start} milliseconds`);
+  console.log(docs);
+  next();
+});
 
 // create model for that schema
 const Tour = mongoose.model('Tour', tourSchema);

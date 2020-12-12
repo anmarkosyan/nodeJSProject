@@ -26,14 +26,6 @@ app.use(express.json());
 //======= using built-in Express middleware for static files
 app.use(express.static(`${__dirname}/public`));
 
-//========= how to create our own middleware function that we want to add in middleware stack
-//and this middleware here applies to each and every single request,
-//❗️and it should come before route handler
-app.use((req, res, next) => {
-  console.log('Hello from the middleware 👋');
-  next();
-});
-
 //how to manipulate request object
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
@@ -42,7 +34,16 @@ app.use((req, res, next) => {
 
 //2: ROUTES
 //this is a route middleware
-app.use('/api/v1/tours', tourRoute);
-app.use('/api/v1/users', userRoute);
+app.use('/api/v1/tours', tourRoute); //1 run
+app.use('/api/v1/users', userRoute); //2 run
+
+//3 run: if this error handler is worked it's mean that our req/res cycle was not yet finished,
+app.all('*', (req, res, next) => {
+  res.status(404).json({
+    status: 'fail',
+    message: `Can't find ${req.originalUrl} on this server!`,
+  });
+  next();
+});
 
 module.exports = app;

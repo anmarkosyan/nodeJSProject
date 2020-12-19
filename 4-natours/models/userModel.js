@@ -51,6 +51,14 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
+//create a function which will check if the given password is the same as the one stored in the document
+//first we should create  an instance method: which is basically a method, that is gonna be available on all documents of a certain collection
+userSchema.method.correctPassword = async function (
+  candidatePassword,
+  userPassword
+) {
+  return await bcrypt.compare(candidatePassword, userPassword);
+};
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;

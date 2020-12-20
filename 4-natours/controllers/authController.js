@@ -17,6 +17,7 @@ exports.signup = catchAsync(async (req, res) => {
     email: req.body.email,
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
+    passwordChangedAt: req.body.passwordChangedAt,
   });
 
   const token = signToken(newUser._id);
@@ -78,11 +79,19 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   //2) Verification token
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-  console.log(decoded);
+  //console.log(decoded);
 
   //3) check if user still exists
+  const freshUser = await User.findById(decoded.id);
+  if (!freshUser) {
+    return next(
+      new AppError('The user belonging to this token does not longer exist'),
+      401
+    );
+  }
 
   //4) check if user changed password after the token has issued
+  freshUser.changedPasswordAfter(decoded.iat);
 
   next();
 });

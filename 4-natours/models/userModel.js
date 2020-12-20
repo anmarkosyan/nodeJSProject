@@ -36,6 +36,7 @@ const userSchema = new mongoose.Schema({
       message: 'Password are not the same!',
     },
   },
+  passwordChangedAt: Date,
 });
 
 //how to prevent plain password and  encrypt or HASH users password, and for that we use mongoose middleware
@@ -59,6 +60,14 @@ userSchema.methods.correctPassword = async function (
 ) {
   return await bcrypt.compare(candidatePassword, userPassword);
 };
+
+userSchema.methods.changedPasswordAfter = async function (JWTTimeStamp) {
+  if (this.passwordChangedAt) {
+    console.log(this.passwordChangedAt, JWTTimeStamp);
+  }
+  return false;
+};
+
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;

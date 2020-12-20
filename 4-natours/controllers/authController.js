@@ -9,7 +9,8 @@ const signToken = id => {
   });
 };
 
-exports.signup = catchAsync(async (req, res, next) => {
+//====================== sign up user
+exports.signup = catchAsync(async (req, res) => {
   const newUser = await User.create({
     name: req.body.name,
     email: req.body.email,
@@ -28,7 +29,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   });
 });
 
-//logging users in based on user exist and password is correct
+//================= logging users in: based on user exist and password is correct
 exports.login = catchAsync(async (req, res, next) => {
   //const email = req.body.email  and const password = req.body.password => using object destructuring with ES6
   const { email, password } = req.body;
@@ -54,4 +55,32 @@ exports.login = catchAsync(async (req, res, next) => {
     status: 'success',
     token,
   });
+});
+
+//=============== protect  tours routes ==========
+//middleware function
+exports.protect = catchAsync(async (req, res, next) => {
+  //1) getting token and check if it's there
+  let token;
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer')
+  ) {
+    token = req.headers.authorization.split(' ')[1];
+  }
+  //console.log(token);
+
+  if (!token) {
+    return next(
+      new AppError('You are not logged in. Please log in to get access.', 401)
+    );
+  }
+
+  //2) verification token
+
+  //3) check if user still exists
+
+  //4) check if user changed password after the token has issued
+
+  next();
 });

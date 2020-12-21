@@ -91,7 +91,13 @@ exports.protect = catchAsync(async (req, res, next) => {
   }
 
   //4) check if user changed password after the token has issued
-  freshUser.changedPasswordAfter(decoded.iat);
+  if (freshUser.changedPasswordAfter(decoded.iat)) {
+    return next(
+      new AppError('User recently changed password! Please log in again', 401)
+    );
+  }
 
+  //Grant access to protected route
+  req.user = freshUser;
   next();
 });

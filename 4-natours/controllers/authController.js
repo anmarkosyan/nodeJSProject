@@ -19,6 +19,8 @@ exports.signup = catchAsync(async (req, res) => {
     passwordConfirm: req.body.passwordConfirm,
     passwordChangedAt: req.body.passwordChangedAt,
     role: req.body.role,
+    passwordResetToken: req.body.passwordResetToken,
+    passwordResetExpires: req.body.passwordResetExpires,
   });
 
   const token = signToken(newUser._id);
@@ -115,3 +117,20 @@ exports.restrictTo = (...roles) => {
     next();
   };
 };
+
+//============== forgot password and reset password routs =============
+//1) step
+exports.forgotPassword = catchAsync(async (req, res, next) => {
+  //1) Get user based on POSTed email
+  const user = await User.findOne({ email: req.body.email });
+
+  if (!user) {
+    return next(new AppError('There is no user with that email address!', 404));
+  }
+  //2) Generate the random reset token
+  const resetToken = user.createPasswordResetToken();
+  await user.save({ validateBeforeSave: false });
+  //3) Send it to user's email
+});
+//2) step
+exports.resetPassword = catchAsync(async (req, res, next) => {});

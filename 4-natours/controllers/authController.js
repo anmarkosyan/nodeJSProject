@@ -24,22 +24,22 @@ const createSendToken = (user, statusCode, res) => {
   });
 };
 
-//====================== sign up user
+//====================== sign up user ===================================
 exports.signup = catchAsync(async (req, res) => {
-  const newUser = await User.create({
-    name: req.body.name,
-    email: req.body.email,
-    password: req.body.password,
-    passwordConfirm: req.body.passwordConfirm,
-    passwordChangedAt: req.body.passwordChangedAt,
-    role: req.body.role,
-    passwordResetToken: req.body.passwordResetToken,
-    passwordResetExpires: req.body.passwordResetExpires,
-  });
+  const newUser = await User.create(req.body);
+  // name: req.body.name,
+  // email: req.body.email,
+  // password: req.body.password,
+  // passwordConfirm: req.body.passwordConfirm,
+  // passwordChangedAt: req.body.passwordChangedAt,
+  // role: req.body.role,
+  // passwordResetToken: req.body.passwordResetToken,
+  // passwordResetExpires: req.body.passwordResetExpires,
+
   createSendToken(newUser, 201, res);
 });
 
-//================= logging users in: based on user exist and password is correct
+//================= logging users in: based on user exist and password is correct =========
 exports.login = catchAsync(async (req, res, next) => {
   //const email = req.body.email  and const password = req.body.password => using object destructuring with ES6
   const { email, password } = req.body;
@@ -62,7 +62,7 @@ exports.login = catchAsync(async (req, res, next) => {
   createSendToken(user, 200, res);
 });
 
-//=============== protect  tours routes ==========
+//=============== protect  tours routes =======================
 //middleware function
 exports.protect = catchAsync(async (req, res, next) => {
   //1) Getting token and check if it's there

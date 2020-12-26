@@ -72,6 +72,14 @@ userSchema.pre('save', function (next) {
   this.passwordChangedAt = Date.now() - 1000;
   next();
 });
+
+//using mongoose middleware for delete non-active user
+userSchema.pre(/^find/, function (next) {
+  // 'THIS' points to current query
+  this.find({ active: { $ne: false } });
+  next();
+});
+
 //create a function which will check if the given password is the same as the one stored in the document
 //first we should create  an instance method: which is basically a method, that is gonna be available on all documents of a certain collection
 userSchema.methods.correctPassword = async function (

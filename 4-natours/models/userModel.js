@@ -45,6 +45,11 @@ const userSchema = new mongoose.Schema({
   passwordChangedAt: Date,
   passwordResetToken: String,
   passwordResetExpires: Date,
+  active: {
+    type: Boolean,
+    default: true,
+    select: false,
+  },
 });
 
 //how to prevent plain password and  encrypt or HASH users password, and for that we use mongoose middleware

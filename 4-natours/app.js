@@ -1,7 +1,7 @@
-//how to use express web framework
 const express = require('express');
 const morgan = require('morgan'); // morgan => 3rd party middleware:HTTP request logger middleware for node.js
 const rateLimit = require('express-rate-limit');
+const helmet = require('helmet');
 
 const tourRoute = require('./routes/tourRoutes');
 const userRoute = require('./routes/userRoutes');
@@ -10,21 +10,16 @@ const globalErrorHandler = require('./controllers/errorController');
 
 const app = express();
 
-//1: GLOBAL MIDDLEWARE
+//1: 📌 GLOBAL MIDDLEWARE
+//Set security HTTP headers
+app.use(helmet());
 
-//for creating middleware
-//And middleware is basically a function that can modify the incoming request data.
-//It's called middleware because it stands between,
-//so in the middle of the request and the response.
-//app.use(morgan('dev')); //3rd party logger middleware, which allows us to see request data right in the console
-
-//how to use NODE_ENV variable
-//console.log(process.env.NODE_ENV);
+//Development logging
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
-//how to create API limit with max request from 1 hour=> it's prevent denial of service and also brute force attacks
-//where an attacker tries to guess the password of some user
+
+//Limit requests from same API
 const limiter = rateLimit({
   max: 100,
   windowMs: 60 * 60 * 1000,
@@ -32,29 +27,30 @@ const limiter = rateLimit({
 });
 app.use('/api', limiter);
 
-app.use(express.json());
+//Body parser, reading data from body into req.body
+app.use(express.json({ limit: '10kb' }));
 
-//======= using built-in Express middleware for static files
+//Serving static files
 app.use(express.static(`${__dirname}/public`));
 
-//how to manipulate request object
-// app.use((req, res, next) => {
-//   req.requestTime = new Date().toISOString();
-//   //console.log(req.headers);
-//   next();
-// });
+//Test middleware
+app.use((req, res, next) => {
+  req.requestTime = new Date().toISOString();
+  //console.log(req.headers);
+  next();
+});
 
-//2: ROUTES
+//2: 📌 ROUTES
 //this is a route middleware
-app.use('/api/v1/tours', tourRoute); //1 run
-app.use('/api/v1/users', userRoute); //2 run
+app.use('/api/v1/tours', tourRoute);
+app.use('/api/v1/users', userRoute);
 
 //if this error handler is worked it's mean that our req/res cycle was not yet finished,
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
-}); //3 run:
+});
 
-//global error handler
+//3: 📌 Global error handler
 app.use(globalErrorHandler);
 
 module.exports = app;

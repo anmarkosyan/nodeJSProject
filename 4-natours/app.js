@@ -1,6 +1,8 @@
 //how to use express web framework
 const express = require('express');
 const morgan = require('morgan'); // morgan => 3rd party middleware:HTTP request logger middleware for node.js
+const rateLimit = require('express-rate-limit');
+
 const tourRoute = require('./routes/tourRoutes');
 const userRoute = require('./routes/userRoutes');
 const AppError = require('./utils/appError');
@@ -8,7 +10,7 @@ const globalErrorHandler = require('./controllers/errorController');
 
 const app = express();
 
-//1: MIDDLEWARE
+//1: GLOBAL MIDDLEWARE
 
 //for creating middleware
 //And middleware is basically a function that can modify the incoming request data.
@@ -21,6 +23,14 @@ const app = express();
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
+//how to create API limit with max request from 1 hour=> it's prevent denial of service and also brute force attacks
+//where an attacker tries to guess the password of some user
+const limiter = rateLimit({
+  max: 100,
+  windowMs: 60 * 60 * 1000,
+  message: 'Too many requests from this IP! Please try again in an hour!',
+});
+app.use('/api', limiter);
 
 app.use(express.json());
 
@@ -28,11 +38,11 @@ app.use(express.json());
 app.use(express.static(`${__dirname}/public`));
 
 //how to manipulate request object
-app.use((req, res, next) => {
-  req.requestTime = new Date().toISOString();
-  //console.log(req.headers);
-  next();
-});
+// app.use((req, res, next) => {
+//   req.requestTime = new Date().toISOString();
+//   //console.log(req.headers);
+//   next();
+// });
 
 //2: ROUTES
 //this is a route middleware

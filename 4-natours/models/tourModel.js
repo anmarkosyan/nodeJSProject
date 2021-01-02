@@ -79,6 +79,31 @@ const tourSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    //Modelling locations: geoSpatial data and embedded/denormalized datasets into the tours
+    startLocation: {
+      //MongoDB uses a special data format called GeoJSON
+      type: {
+        type: String,
+        default: 'Point',
+        enum: ['Point'],
+      },
+      coordinates: [Number],
+      address: String,
+      description: String,
+    },
+    locations: [
+      {
+        type: {
+          type: String,
+          default: 'Point',
+          enum: ['Point'],
+        },
+        coordinates: [Number],
+        address: String,
+        description: String,
+        day: Number,
+      },
+    ],
   },
   {
     toJSON: { virtuals: true },

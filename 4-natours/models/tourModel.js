@@ -131,6 +131,14 @@ tourSchema.pre('save', function (next) {
   next();
 });
 
+tourSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'guides',
+    select: '-__v -passwordChangedAt',
+  });
+  next();
+});
+
 //for embedding users into tour guide
 // tourSchema.pre('save', async function (next) {
 //   const guidesPromises = this.guides.map(async id => await User.findById(id));

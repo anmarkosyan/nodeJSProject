@@ -8,6 +8,7 @@ const hpp = require('hpp');
 
 const tourRoute = require('./routes/tourRoutes');
 const userRoute = require('./routes/userRoutes');
+const reviewRoute = require('./routes/reviewRoutes');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 
@@ -67,6 +68,7 @@ app.use((req, res, next) => {
 //this is a route middleware
 app.use('/api/v1/tours', tourRoute);
 app.use('/api/v1/users', userRoute);
+app.use('/api/v1/reviews', reviewRoute);
 
 //if this error handler is worked it's mean that our req/res cycle was not yet finished,
 app.all('*', (req, res, next) => {

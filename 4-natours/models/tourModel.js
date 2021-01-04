@@ -123,6 +123,13 @@ tourSchema.virtual('durationWeeks').get(function () {
   return this.duration / 7;
 });
 
+//virtual populate
+tourSchema.virtual('reviews', {
+  ref: 'Review',
+  foreignField: 'tour',
+  localField: '_id',
+});
+
 //Mongoose Document middleware: runs before .save() and .create()
 //this save middleware only runs for the save and create Mongoose methods.
 tourSchema.pre('save', function (next) {

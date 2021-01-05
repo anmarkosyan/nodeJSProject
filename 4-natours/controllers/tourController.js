@@ -2,6 +2,7 @@ const Tour = require('../models/tourModel');
 const APIFeatures = require('../utils/apiFeatures');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
+const factory = require('./handlerFactory');
 
 //created middleware function for top-5-cheap route which would be easy query string for users
 //(127.0.0.1:3000/api/v1/tours/top-5-cheap)
@@ -76,18 +77,8 @@ exports.updateTour = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.deleteTour = catchAsync(async (req, res, next) => {
-  const tour = await Tour.findByIdAndDelete(req.params.id);
-
-  if (!tour) {
-    return next(new AppError('No tour found with that ID', 404));
-  }
-  //204 status means: no content
-  res.status(204).json({
-    status: 'success',
-    data: null,
-  });
-});
+//=============== 📌Delete Tour ===========
+exports.deleteTour = factory.deleteOne(Tour);
 
 //define an aggregation pipeline for get a statistics about our tour and manipulate data using calculation
 exports.getTourStats = catchAsync(async (req, res, next) => {

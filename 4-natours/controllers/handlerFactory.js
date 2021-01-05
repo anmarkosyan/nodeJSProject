@@ -1,6 +1,19 @@
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 
+//=============== 📌Create document =================
+exports.createOne = Model =>
+  catchAsync(async (req, res, next) => {
+    const newDoc = await Model.create(req.body);
+
+    res.status(201).json({
+      status: 'success',
+      data: {
+        data: newDoc,
+      },
+    });
+  });
+
 //=============== 📌Update document =================
 exports.updateOne = Model =>
   catchAsync(async (req, res, next) => {

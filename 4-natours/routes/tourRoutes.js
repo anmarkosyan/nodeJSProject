@@ -1,11 +1,17 @@
 const express = require('express');
 const tourController = require('../controllers/tourController');
 const authController = require('../controllers/authController');
-const reviewController = require('../controllers/reviewController');
+const reviewRouter = require('./reviewRoutes');
 
 // ROUTES
 // MOUNTING the router
 const router = express.Router();
+
+//❗️how to work with nested routes
+// POST /tours/123asd35/reviews
+// GET /tours/123asd35/review
+
+router.use('/:tourId/reviews', reviewRouter);
 
 //using param middleware: So param middleware is middleware that only runs
 //for certain parameters, so basically, when we have a certain parameter in our URL.
@@ -30,16 +36,6 @@ router
     authController.protect,
     authController.restrictTo('admin', 'lead-guid'),
     tourController.deleteTour
-  );
-// POST /tours/123asd35/reviews
-// GET /tours/123asd35/review
-// GET /tours/123asd35/review/345ert45
-router
-  .route('/:tourId/reviews')
-  .post(
-    authController.protect,
-    authController.restrictTo('user'),
-    reviewController.createReview
   );
 
 module.exports = router;

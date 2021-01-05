@@ -10,12 +10,7 @@ const router = express.Router();
 //❗️how to work with nested routes
 // POST /tours/123asd35/reviews
 // GET /tours/123asd35/review
-
 router.use('/:tourId/reviews', reviewRouter);
-
-//using param middleware: So param middleware is middleware that only runs
-//for certain parameters, so basically, when we have a certain parameter in our URL.
-//router.param('id', tourController.checkID);
 
 router
   .route('/top-5-cheap')

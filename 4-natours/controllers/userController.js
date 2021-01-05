@@ -78,11 +78,5 @@ exports.createUser = (req, res) => {
     message: 'This route not yet defined!',
   });
 };
-exports.updateUser = (req, res) => {
-  //500 status: internal server error
-  res.status(500).json({
-    status: 'error',
-    message: 'This route not yet defined!',
-  });
-};
-exports.deleteUser = factory.deleteOne(User);
+exports.updateUser = factory.updateOne(User); //only for admins
+exports.deleteUser = factory.deleteOne(User); //only for admins

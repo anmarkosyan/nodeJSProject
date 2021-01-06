@@ -11,6 +11,12 @@ const filterObj = (obj, ...allowedFields) => {
   return newObj;
 };
 
+//===================== 📍Get me ====================
+exports.getMe = (req, res, next) => {
+  req.params.id = req.user.id;
+  next();
+};
+
 //======================== 📍User update ==========================
 //allow the currently logged in user to manipulate his user data(email, name)
 exports.updateMe = catchAsync(async (req, res, next) => {

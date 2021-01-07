@@ -25,6 +25,12 @@ router
     tourController.getMonthlyPlan
   );
 
+//🌎Geospatial routes
+//  /tours-distance/233/center/-40,45/unit/me
+router
+  .route('/tours-within/:distance/center/:latlng/unit/:unit')
+  .get(tourController.getToursWithin);
+
 router
   .route('/')
   .get(tourController.getAllTours)

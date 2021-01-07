@@ -26,10 +26,13 @@ router
   );
 
 //🌎Geospatial routes
-//  /tours-distance/233/center/-40,45/unit/me
+//  /tours-distance/233/center/-40,45/unit/mi
 router
   .route('/tours-within/:distance/center/:latlng/unit/:unit')
   .get(tourController.getToursWithin);
+
+//🌎Calculate all tours distances route
+router.route('/distances/:latlng/unit/:unit').get(tourController.getDistances);
 
 router
   .route('/')

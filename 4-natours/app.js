@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const morgan = require('morgan'); // morgan => 3rd party middleware:HTTP request logger middleware for node.js
 const rateLimit = require('express-rate-limit');
@@ -14,7 +15,14 @@ const globalErrorHandler = require('./controllers/errorController');
 
 const app = express();
 
+//PUG template engine
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
+
 //1: 📌 GLOBAL MIDDLEWARE
+//Serving static files
+app.use(express.static(path.join(__dirname, 'public')));
+
 //Set security HTTP headers
 app.use(helmet());
 
@@ -53,9 +61,6 @@ app.use(
     ],
   })
 );
-
-//Serving static files
-app.use(express.static(`${__dirname}/public`));
 
 //Test middleware
 app.use((req, res, next) => {

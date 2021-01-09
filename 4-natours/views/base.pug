@@ -1,1 +1,16 @@
-h1 The Park Camper
+doctype html
+html
+    head
+        title Natours | #{tour}
+        link(rel='stylesheet' href='css/style.css')
+        link(rel='shortcut icon' type='image/png' href='img/favicon.png' )
+    body
+        //- h1 The Park Camper
+            this is buffered code
+        h1= tour
+        h2= user.toUpperCase()
+        //- unbuffered code with - , that is not going to add anything to the output
+        - const x = 9;
+        //- after buffered code with will execute in the browser
+        h2= 2 * x
+        p This is for test

@@ -70,6 +70,10 @@ app.use((req, res, next) => {
 });
 
 //2: 📌 ROUTES
+//routes with pug templates
+app.get('/', (req, res) => {
+  res.status(200).render('base');
+});
 //this is a route middleware
 app.use('/api/v1/tours', tourRoute);
 app.use('/api/v1/users', userRoute);

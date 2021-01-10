@@ -32,26 +32,25 @@ block content
             div
                 .overview-box__group
                     h2.heading-secondary.ma-bt-lg Quick facts
-                    - const date = tour.startDates[0].toLocaleString('en-us', { month: 'long', year: 'numeric' })
-                    +overviewBox('Next date', date , 'calendar')
+
+                    - const date = tour.startDates[0].toLocaleString('en-us', {month: 'long', year: 'numeric'})
+                        +overviewBox('Next date', date , 'calendar')
                     +overviewBox('Difficulty', tour.difficulty , 'trending-up')
                     +overviewBox('Participants', `${tour.maxGroupSize} people` , 'user')
                     +overviewBox('Rating', `${tour.ratingsAverage} / 5` , 'star')
 
                 .overview-box__group
                     h2.heading-secondary.ma-bt-lg Your tour guides
-                    .overview-box__detail
-                        img.overview-box__img(src='/img/users/user-19.jpg', alt='Lead guide')
-                        span.overview-box__label Lead guide
-                        span.overview-box__text Steven Miller
-                    .overview-box__detail
-                        img.overview-box__img(src='/img/users/user-18.jpg', alt='Tour guide')
-                        span.overview-box__label Tour guide
-                        span.overview-box__text Lisa Brown
-                    .overview-box__detail
-                        img.overview-box__img(src='/img/users/user-17.jpg', alt='Intern')
-                        span.overview-box__label Intern
-                        span.overview-box__text Max Smith
+
+                        each guide in tour.guides
+                            .overview-box__detail
+                                img.overview-box__img(src=`/img/users/${guide.photo}`, alt=`${guide.name}`)
+                                - if (guide.role === 'lead-guide')
+                                   span.overview-box__label Lead guide
+                                - if(guide.role === 'guide')
+                                   span.overview-box__label Tour guide
+                                span.overview-box__text= guide.name
+
 
         .description-box
             h2.heading-secondary.ma-bt-lg About the park camper tour

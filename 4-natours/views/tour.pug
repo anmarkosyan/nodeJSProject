@@ -60,12 +60,10 @@ block content
 
 
     section.section-pictures
-        .picture-box
-            img.picture-box__img.picture-box__img--1(src='/img/tour-5-1.jpg', alt='The Park Camper Tour 1')
-        .picture-box
-            img.picture-box__img.picture-box__img--2(src='/img/tour-5-2.jpg', alt='The Park Camper Tour 1')
-        .picture-box
-            img.picture-box__img.picture-box__img--3(src='/img/tour-5-3.jpg', alt='The Park Camper Tour 1')
+        each img, i in tour.images
+            .picture-box
+                img.picture-box__img(src=`/img/tours/${img}`, alt=`${tour.name} Tour ${i + 1}`, class=`picture-box__img--${i + 1}`)
+
 
     section.section-map
         #map

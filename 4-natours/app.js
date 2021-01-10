@@ -70,11 +70,23 @@ app.use((req, res, next) => {
 });
 
 //2: 📌 ROUTES
-//routes with pug templates
+//🐶 routes with pug templates
 app.get('/', (req, res) => {
   res.status(200).render('base', {
     tour: 'The Forest Hiker',
     user: 'Anush',
+  });
+});
+
+app.get('/overview', (req, res) => {
+  res.status(200).render('overview', {
+    title: 'All Tours',
+  });
+});
+
+app.get('/tour', (req, res) => {
+  res.status(200).render('tour', {
+    title: 'The forest hiker',
   });
 });
 //this is a route middleware

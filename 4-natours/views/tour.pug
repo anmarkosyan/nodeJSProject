@@ -1,5 +1,7 @@
 extends base
 
+include _reviewCard
+
 mixin overviewBox(label, text, icon)
     .overview-box__detail
         svg.overview-box__icon
@@ -70,23 +72,9 @@ block content
 
     section.section-reviews
         .reviews
+             each review in tour.reviews
+                +reviewCard(review)
 
-            .reviews__card
-                .reviews__avatar
-                    img.reviews__avatar-img(src='/img/users/user-7.jpg', alt='Jim Brown')
-                    h6.reviews__user Jim Brown
-                p.reviews__text Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque dignissimos sint quo commodi corrupti accusantium veniam saepe numquam.
-                .reviews__rating
-                    svg.reviews__star.reviews__star--active
-                        use(xlink:href='/img/icons.svg#icon-star')
-                    svg.reviews__star.reviews__star--active
-                        use(xlink:href='/img/icons.svg#icon-star')
-                    svg.reviews__star.reviews__star--active
-                        use(xlink:href='/img/icons.svg#icon-star')
-                    svg.reviews__star.reviews__star--active
-                        use(xlink:href='/img/icons.svg#icon-star')
-                    svg.reviews__star.reviews__star--active
-                        use(xlink:href='/img/icons.svg#icon-star')
 
     section.section-cta
         .cta

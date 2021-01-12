@@ -43,16 +43,28 @@ exports.getTour = catchAsync(async (req, res, next) => {
 exports.getLoginForm = (req, res) => {
   // 1) build template within login.pug
   // 2) render that template
-  res.status(200).render('login', {
-    title: 'Log into your account',
-  });
+  res
+    .status(200)
+    .set(
+      'Content-Security-Policy',
+      "connect-src 'self' https://cdnjs.cloudflare.com"
+    )
+    .render('login', {
+      title: 'User Login',
+    });
 };
 
 //============== 📌 Get Sign up ==================
 exports.getSignUpForm = (req, res) => {
   //1) build template within signUp.pug
   //2) render that template
-  res.status(200).render('signup', {
-    title: 'Sign Up',
-  });
+  res
+    .status(200)
+    .set(
+      'Content-Security-Policy',
+      "connect-src 'self' https://cdnjs.cloudflare.com"
+    )
+    .render('signup', {
+      title: 'Sign Up',
+    });
 };

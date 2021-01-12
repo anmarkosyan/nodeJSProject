@@ -38,3 +38,21 @@ exports.getTour = catchAsync(async (req, res, next) => {
       tour,
     });
 });
+
+//================ 📌 Get Login ===================
+exports.getLoginForm = (req, res) => {
+  // 1) build template within login.pug
+  // 2) render that template
+  res.status(200).render('login', {
+    title: 'Log into your account',
+  });
+};
+
+//============== 📌 Get Sign up ==================
+exports.getSignUpForm = (req, res) => {
+  //1) build template within signUp.pug
+  //2) render that template
+  res.status(200).render('signup', {
+    title: 'Sign Up',
+  });
+};

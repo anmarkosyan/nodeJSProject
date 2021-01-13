@@ -9,8 +9,6 @@ import { login } from './login';
 const mapBox = document.getElementById('map');
 const loginForm = document.querySelector('.form');
 
-//📌Values
-
 //📌Delegations
 if (mapBox) {
   const locations = JSON.parse(mapBox.dataset.locations);

@@ -72,3 +72,12 @@ exports.getSignUpForm = (req, res) => {
       title: 'Sign Up',
     });
 };
+
+//================ 📌 Get Account ====================
+exports.getAccount = (req, res) => {
+  //1) build template within account.pug
+  //2) render that template
+  res.status(200).render('account', {
+    title: 'Your account',
+  });
+};

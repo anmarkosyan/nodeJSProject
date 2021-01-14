@@ -81,3 +81,24 @@ exports.getAccount = (req, res) => {
     title: 'Your account',
   });
 };
+
+//================ 📌 Update User Data ==============
+exports.updateUserData = catchAsync(async (req, res, next) => {
+  //console.log('Updating data', req, body);
+  const updateUser = await User.findByIdAndUpdate(
+    req.user.id,
+    {
+      name: req.body.name,
+      email: req.body.email,
+    },
+    {
+      new: true,
+      runValidators: true
+    }
+  );
+
+  res.status(200).render('account', {
+    title: 'Your account',
+    user: updateUser
+  });
+});

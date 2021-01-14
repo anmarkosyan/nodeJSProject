@@ -10,4 +10,10 @@ router.get('/login', authController.isLoggedIn, viewController.getLoginForm);
 router.get('/signup', authController.isLoggedIn, viewController.getSignUpForm); //not yet define
 router.get('/me', authController.protect, viewController.getAccount);
 
+router.post(
+  '/submit-user-data',
+  authController.protect,
+  viewController.updateUserData
+);
+
 module.exports = router;

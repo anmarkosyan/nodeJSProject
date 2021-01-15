@@ -34,11 +34,13 @@ if (logOutBtn) logOutBtn.addEventListener('click', logout);
 
 //updating user settings
 if (userDataForm) {
-  userDataForm.addEventListener('submit', e => {
+  userDataForm.addEventListener('submit', async e => {
     e.preventDefault();
+    document.querySelector('.btn--save-data').textContent = 'Updating...'
     const email = document.getElementById('email').value;
     const name = document.getElementById('name').value;
-    updateSettings({ name, email }, 'data');
+    await updateSettings({ name, email }, 'data');
+    document.querySelector('.btn--save-data').textContent = 'Save Password'
   });
 }
 

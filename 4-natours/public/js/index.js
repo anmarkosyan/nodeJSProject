@@ -34,13 +34,14 @@ if (logOutBtn) logOutBtn.addEventListener('click', logout);
 
 //updating user settings
 if (userDataForm) {
-  userDataForm.addEventListener('submit', async e => {
+  userDataForm.addEventListener('submit', e => {
     e.preventDefault();
-    document.querySelector('.btn--save-data').textContent = 'Updating...'
-    const email = document.getElementById('email').value;
-    const name = document.getElementById('name').value;
-    await updateSettings({ name, email }, 'data');
-    document.querySelector('.btn--save-data').textContent = 'Save Password'
+    const form = new FormData();
+    form.append('email', document.getElementById('email').value);
+    form.append('name', document.getElementById('name').value);
+    form.append('photo', document.getElementById('photo').files[0]);
+
+    updateSettings(form, 'data');
   });
 }
 
@@ -48,8 +49,7 @@ if (userDataForm) {
 if (userPasswordForm) {
   userPasswordForm.addEventListener('submit', async e => {
     e.preventDefault();
-    document.querySelector('.btn--save-password').textContent = 'Updating...'
-
+    document.querySelector('.btn--save-password').textContent = 'Updating...';
 
     const passwordCurrent = document.getElementById('password-current').value;
     const password = document.getElementById('password').value;
@@ -60,7 +60,7 @@ if (userPasswordForm) {
       'password'
     );
 
-    document.querySelector('.btn--save-password').textContent = 'Save Password'
+    document.querySelector('.btn--save-password').textContent = 'Save Password';
     document.getElementById('password-current').value = '';
     document.getElementById('password').value = '';
     document.getElementById('password-confirm').value = '';

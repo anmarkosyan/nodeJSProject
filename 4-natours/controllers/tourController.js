@@ -1,9 +1,46 @@
+const multer = require('multer');
+const sharp = require('sharp');
 const Tour = require('../models/tourModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const factory = require('./handlerFactory');
 
-//created middleware function for top-5-cheap route which would be easy query string for users
+//============== 📍Multer middleware usage =================
+const multerStorage = multer.memoryStorage();
+
+const multerFilter = (req, file, cb) => {
+  //check if the uploaded file is an image:  pass true/false in the cb function
+  if (file.mimetype.startsWith('image')) {
+    cb(null, true);
+  } else {
+    cb(new AppError('Not an image! Please upload only images', 404), false);
+  }
+};
+
+const upload = multer({
+  storage: multerStorage,
+  fileFilter: multerFilter,
+});
+
+exports.uploadTourImages = upload.fields([
+  { name: 'imageCover', maxCount: 1 },
+  { name: 'images', maxCount: 3 },
+]); //for multiple images
+
+//================ 📍Resize Tour images middleware ===========
+exports.resizeTourImages = (req, res, next) => {
+  console.log(req.files);
+  next();
+};
+
+//========== 📍ROUTE HANDLERS
+exports.getAllTours = factory.getAll(Tour);
+exports.getTour = factory.getOne(Tour, { path: 'reviews' });
+exports.createTour = factory.createOne(Tour);
+exports.updateTour = factory.updateOne(Tour);
+exports.deleteTour = factory.deleteOne(Tour);
+
+//========== 📍created middleware function for top-5-cheap route which would be easy query string for users
 //(127.0.0.1:3000/api/v1/tours/top-5-cheap)
 exports.aliasTopTours = (req, res, next) => {
   req.query.limit = '5';
@@ -12,14 +49,7 @@ exports.aliasTopTours = (req, res, next) => {
   next();
 };
 
-// ROUTE HANDLERS
-exports.getAllTours = factory.getAll(Tour);
-exports.getTour = factory.getOne(Tour, { path: 'reviews' });
-exports.createTour = factory.createOne(Tour);
-exports.updateTour = factory.updateOne(Tour);
-exports.deleteTour = factory.deleteOne(Tour);
-
-//define an aggregation pipeline for get a statistics about our tour and manipulate data using calculation
+//=======  📍define an aggregation pipeline for get a statistics about our tour and manipulate data using calculation
 exports.getTourStats = catchAsync(async (req, res, next) => {
   const stats = await Tour.aggregate([
     {
@@ -99,7 +129,7 @@ exports.getMonthlyPlan = catchAsync(async (req, res, next) => {
   });
 });
 
-//====== 🌎 GeoSpacial query function for searching near tours within a certain distance from certain point ===============
+//==== 🌎 GeoSpacial query function for searching near tours within a certain distance from certain point ===============
 //  /tours-within/:distance/center/:latlng/unit/:unit
 //  /tours-within/233/center/40.187358,44.559622/unit/mi
 exports.getToursWithin = catchAsync(async (req, res, next) => {

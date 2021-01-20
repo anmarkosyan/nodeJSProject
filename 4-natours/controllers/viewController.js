@@ -93,12 +93,12 @@ exports.updateUserData = catchAsync(async (req, res, next) => {
     },
     {
       new: true,
-      runValidators: true
+      runValidators: true,
     }
   );
 
   res.status(200).render('account', {
     title: 'Your account',
-    user: updateUser
+    user: updateUser,
   });
 });

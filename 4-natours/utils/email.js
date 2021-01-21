@@ -13,9 +13,18 @@ module.exports = class Email {
   //created method for transport
   newTransport() {
     if (process.env.NODE_ENV === 'production') {
+      //console.log('I am here 👋', this.from);from should be same email here and in within sendGrid identity form
       //use SendGrid
-      return 1;
+      return nodemailer.createTransport({
+        service: 'SendGrid',
+        auth: {
+          user: process.env.SENDGRID_USERNAME,
+          pass: process.env.SENDGRID_PASSWORD,
+        },
+      });
     }
+
+    //else if in development env
     return nodemailer.createTransport({
       host: process.env.EMAIL_HOST,
       port: process.env.EMAIL_PORT,

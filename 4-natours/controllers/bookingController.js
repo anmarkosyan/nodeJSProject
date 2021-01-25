@@ -2,7 +2,8 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const Tour = require('../models/tourModel');
 const Booking = require('../models/bookingModel');
 const catchAsync = require('../utils/catchAsync');
-//const AppError = require('../utils/appError');
+const AppError = require('../utils/appError');
+const factory = require('./handlerFactory');
 
 //============ 📌 created checkout session ====================
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
@@ -50,3 +51,10 @@ exports.createBookingCheckout = catchAsync(async (req, res, next) => {
   //after redirect the url: success_url: ✏️`${req.protocol}://${req.get('host')}/✏️?tour=${req.params.tourId}&user=${req.user.id}&price=${tour.price}`
   res.redirect(req.originalUrl.split('?')[0]);
 });
+
+//============ 📌 Handel rest 5 controllers CRUD operations ============
+exports.crateBooking = factory.createOne(Booking);
+exports.getAllBookings = factory.getAll(Booking);
+exports.getBooking = factory.getOne(Booking);
+exports.updateBooking = factory.updateOne(Booking);
+exports.deleteBooking = factory.deleteOne(Booking);

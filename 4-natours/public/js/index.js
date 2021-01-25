@@ -70,10 +70,10 @@ if (userPasswordForm) {
 }
 //booking section
 if (bookBtn) {
-  bookBtn.addEventListener('click', async e => {
+  bookBtn.addEventListener('click', e => {
     console.log('💥💥💥');
     e.target.textContent = 'Processing...';
     const { tourId } = e.target.dataset;
-    await bookTour(tourId);
+    bookTour(tourId);
   });
 }

@@ -7,6 +7,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
+const compression = require('compression');
 
 const tourRoute = require('./routes/tourRoutes');
 const userRoute = require('./routes/userRoutes');
@@ -70,7 +71,6 @@ app.use(
           'https://*.cloudflare.com/',
           'https://bundle.js:*',
           'ws://127.0.0.1:*/',
-
         ],
         upgradeInsecureRequests: [],
       },
@@ -115,6 +115,9 @@ app.use(
     ],
   })
 );
+
+//Using COMPRESSION middleware for compress all the text which will send to the client
+app.use(compression());
 
 //Test middleware
 app.use((req, res, next) => {

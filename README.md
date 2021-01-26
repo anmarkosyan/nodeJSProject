@@ -1,6 +1,6 @@
 # Node-Express-MongoDB 
 
-##Natours Application
+## Natours Application
 
 Build using modern technologies:
 
@@ -31,10 +31,10 @@ For development, you will only need Node.js and a node global package, Yarn, ins
 If the installation was successful, you should be able to run the following command.
 
     $ node --version
-    v8.11.3
+    v12.19.0
 
     $ npm --version
-    6.1.0
+    6.14.10
 
 
 

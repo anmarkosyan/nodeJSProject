@@ -6,7 +6,7 @@
 * [General info](#general-info)
 * [Technologies](#technologies)
 * [Setup](#setup)
-* [About Natours app](#About-natours-app)
+* [About Natours app](#about-natours-app)
 
 ---
 
@@ -22,34 +22,31 @@ Here you can find modern and powerful backand applications with Node.js and rela
 ---
 
 ## Setup
+For development, you will need **Node.js installed** in your environment.
+Just go on [official Node.js website](https://nodejs.org/) and download the installer.
+Also, be sure to have **git** available in your PATH , so click [official GIT website](https://git-scm.com/).
+Don't forget  install **npm**, so find more in [official NPM website](https://npmjs.org/).
+At the last install **MongoDB** in your local machine by a follow this link [official mongoDB website](https://docs.mongodb.com/manual/administration/install-community/)
+
 If the installation was successful, you should be able to run the following command.
+Here I'm using this versions...
 
-    $ node --version
-    v12.19.0
+> - $ node --version: v12.19.0
+> - $ npm --version: 6.14.10
+> - $ git --version: 2.23.0
+> - $ mongo -version: v4.4.1
 
-    $ npm --version
-    6.14.10
 
 ---
 
 ![logo](4-natours/public/img/logo-green.png) 
-## About Natours  app
+## About Natours app
 
 created  by building a real-world RESTful API and web app (with authentication, Node.js security, mail, payments & more).
 
 ### Technologies
-For development, you will need Node.js installed in your environment.
 
 
-
-- #### Node installation on MAC
-
-  Just go on [official Node.js website](https://nodejs.org/) and download the installer.
-  Also, be sure to have `git` available in your PATH, `npm` might need it (You can find git [here](https://git-scm.com/)).
-
-
-- #### O
-  You can find more information about the installation on the [official Node.js website](https://nodejs.org/) and the [official NPM website](https://npmjs.org/).
 
 
 

@@ -6,7 +6,7 @@
 * [General info](#general-info)
 * [Setup](#setup)
 * [About Natours app](#about-natours-app)
-* [Technologies](#technologies)
+
 
 ---
 
@@ -47,14 +47,15 @@ Here I'm using this versions...
 Building Natours tour app, here we
  - design and build the Restful API using Express framework with his middlewares, go [here](https://documenter.getpostman.com/view/14106643/TVzNKKqE) to see API's 
  - using mongoDB noSQL/document type database system for storing data with his Mongoose library, also installing MongoDB Atlas for remote database work
- - also using network applications, routing, CRUD operations, data modeling, modern authentication with JSON web tokens, authorization, security, error handling and more...
+ - also using network applications, routing, CRUD operations, data modeling using the MVC architecture, modern authentication with JSON web tokens, using geospatial data with MAPBOX app, authorization, security, error handling and more...
  - building rendered website using PUG templates
  - we also can accept credit card payment using Stripe app
  - sending email by using SendGrid app
  - finally, deploy app to production with Heroku
 
 
-## Technologies
+
+
 
 
 

@@ -1,33 +1,29 @@
 # Node-Express-MongoDB
-
-## Natours Application
-
-Build using modern technologies:
-
-* node.js
-* express.js
-* mongoDB
-
-
-# Project Title
-
-This website
+## Table of contents
+* [General info](#general-info)
+* [Technologies](#technologies)
+* [Setup](#setup)
 
 ---
-## Requirements
 
-For development, you will only need Node.js and a node global package, Yarn, installed in your environement.
+## General info
+This is complete Node.js course from [Udemy](https://www.udemy.com/course/nodejs-express-mongodb-bootcamp/),
+created Natours app by building a real-world RESTful API and web app (with authentication, Node.js security, mail, payments & more).
 
-### Node
+## Technologies
+For development, you will need Node.js installed in your environment.
+
+
+
 - #### Node installation on MAC
 
   Just go on [official Node.js website](https://nodejs.org/) and download the installer.
   Also, be sure to have `git` available in your PATH, `npm` might need it (You can find git [here](https://git-scm.com/)).
 
 
-- #### Other Operating Systems
+- #### O
   You can find more information about the installation on the [official Node.js website](https://nodejs.org/) and the [official NPM website](https://npmjs.org/).
-
+## Setup
 If the installation was successful, you should be able to run the following command.
 
     $ node --version
